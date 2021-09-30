@@ -3,6 +3,8 @@
 ## prepare yolov4 model
 1. download weights from url https://docs.google.com/uc?export=download&id=1cewMfusmPjYWbrnuJRuKhPMwRe_b9PaT and save it to model directory
 2. download cfg from https://raw.githubusercontent.com/opencv/opencv_extra/master/testdata/dnn/yolov4.cfg and save it to model directory
+
+```
 D:.
 │  .gitignore
 │  common.py
@@ -33,6 +35,7 @@ D:.
 │      object_detection_classes_yolov3.txt
 │      yolov4.cfg
 │      yolov4.weights
+```
 
 ## usage 
 python object_detection.py --model model\yolov4.weights --config model\yolov4.cfg --classes model\object_detection_classes_yolov3.txt  --width 416 --height 416 --scale 0.00392 --rgb --input data\PETS2009.avi
