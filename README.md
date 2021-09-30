@@ -38,9 +38,12 @@ D:.
 ```
 
 ## usage 
+```
 python object_detection.py --model model\yolov4.weights --config model\yolov4.cfg --classes model\object_detection_classes_yolov3.txt  --width 416 --height 416 --scale 0.00392 --rgb --input data\PETS2009.avi
+```
 
 # you can change the region of interest by modification of anchor_pts like below
+```
 anchor_pts = np.array([(402,138),(757,290),(570,470),(174,265)],dtype='float32')
-
+```
 the sequence of points must be four and in the order of top-left,top-right,bottom-right,bottom-left
