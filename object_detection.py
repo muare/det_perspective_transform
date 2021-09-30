@@ -30,7 +30,8 @@ def compute_point_perspective_transformation(matrix,list_downoids):
 	for i in range(0,transformed_points.shape[0]):
 		transformed_points_list.append([transformed_points[i][0][0],transformed_points[i][0][1]])
 	return transformed_points_list    
-anchor_pts = np.array([(402,138),(757,290),(570,470),(174,265)],dtype='float32')
+#anchor_pts = np.array([(402,138),(757,290),(570,470),(174,265)],dtype='float32')
+anchor_pts = np.array([(308,49),(683,46),(830,518),(196,525)],dtype='float32')
 maxWidth,maxHeight = 80*3,60*3
 dst = np.array([
     [0, 0],
@@ -226,13 +227,14 @@ def postprocess(frame, outs):
         list_downoids+=[(left+width/2,top+height)]
         drawPred(classIds[i], confidences[i], left, top, left + width, top + height)
     
-    transformed_pts = compute_point_perspective_transformation(T_M,list_downoids)
     frame[:maxHeight,:maxWidth,:]=255
-    for pt in transformed_pts:
-        cx,cy = int(pt[0]),int(pt[1])
-        if cx < maxWidth and cy < maxHeight:
-            cv.circle(frame,(cx,cy),5,(255,0,0),1)
-            cv.circle(frame,(cx,cy),1,(0,0,255),1)
+    if list_downoids:
+        transformed_pts = compute_point_perspective_transformation(T_M,list_downoids)        
+        for pt in transformed_pts:
+            cx,cy = int(pt[0]),int(pt[1])
+            if cx < maxWidth and cy < maxHeight:
+                cv.circle(frame,(cx,cy),5,(255,0,0),1)
+                cv.circle(frame,(cx,cy),1,(0,0,255),1)
     cv.putText(frame, "XINTENT Technology Demo:", (0, 15), cv.FONT_HERSHEY_SIMPLEX, 0.4, (0, 255, 0))
     
 
