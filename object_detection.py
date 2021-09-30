@@ -3,6 +3,7 @@ import argparse
 import numpy as np
 import sys
 import time
+from datetime import datetime
 from threading import Thread
 if sys.version_info[0] == 2:
     import Queue as queue
@@ -16,6 +17,10 @@ from tf_text_graph_faster_rcnn import createFasterRCNNGraph
 
 
 #####
+def four_point_transform(image, M,maxWidth,maxHeight):
+	warped = cv.warpPerspective(image, M, (maxWidth, maxHeight))
+	# return the warped image
+	return warped
 def compute_point_perspective_transformation(matrix,list_downoids):
 	""" Apply the perspective transformation to every ground point which have been detected on the main frame.
 	@ matrix : the 3x3 matrix 
@@ -40,7 +45,7 @@ dst = np.array([
     [0, maxHeight - 1]], dtype = "float32")
 # compute the perspective transform matrix and then apply it
 T_M = cv.getPerspectiveTransform(anchor_pts, dst)
-
+warped_background = four_point_transform(cv.imread('data/background.jpg'),T_M,maxWidth,maxHeight)
 #####
 
 backends = (cv.dnn.DNN_BACKEND_DEFAULT, cv.dnn.DNN_BACKEND_HALIDE, cv.dnn.DNN_BACKEND_INFERENCE_ENGINE, cv.dnn.DNN_BACKEND_OPENCV,
@@ -227,7 +232,8 @@ def postprocess(frame, outs):
         list_downoids+=[(left+width/2,top+height)]
         drawPred(classIds[i], confidences[i], left, top, left + width, top + height)
     
-    frame[:maxHeight,:maxWidth,:]=255
+    frame[:maxHeight,:maxWidth,:]=warped_background # real scene
+    #frame[:maxHeight,:maxWidth,:]= 255 # white background
     if list_downoids:
         transformed_pts = compute_point_perspective_transformation(T_M,list_downoids)        
         for pt in transformed_pts:
@@ -253,7 +259,7 @@ cap = cv.VideoCapture(cv.samples.findFileOrKeep(args.input) if args.input else 0
 hasFrame, frame = cap.read()
 oh, ow,oc = frame.shape
 fourcc = cv.VideoWriter_fourcc(*'MP4V')
-writer = cv.VideoWriter("data/output.mp4", fourcc, 20., (ow, oh))
+writer = cv.VideoWriter("data/output-%s.mp4" % datetime.now().strftime('%Y-%m-%d-%H-%M-%S'), fourcc, 20., (ow, oh))
 print(ow,oh,oc)
 
 class QueueFPS(queue.Queue):
