@@ -1,0 +1,10 @@
+MobileNetSSD_deploy.caffemodel
+MobileNetSSD_deploy.prototxt
+faster_rcnn_inception_v2_coco_2018_01_28.pb
+faster_rcnn_inception_v2_coco_2018_01_28.pbtxt
+model.txt
+object_detection_classes_yolov3.txt
+ssd_mobilenet_v1_ppn_coco.pb
+ssd_mobilenet_v1_ppn_coco.pbtxt
+yolov4.cfg
+yolov4.weights
