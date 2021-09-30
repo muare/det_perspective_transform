@@ -1,5 +1,11 @@
 # det_perspective_transform
 
+## env
+1. conda
+```
+platform : win-64
+             user-agent : conda/4.10.3 requests/2.25.1 CPython/3.8.1 Windows/10 Windows/10.0.19041
+```             
 ## prepare yolov4 model
 1. download weights from url https://docs.google.com/uc?export=download&id=1cewMfusmPjYWbrnuJRuKhPMwRe_b9PaT and save it to model directory
 2. download cfg from https://raw.githubusercontent.com/opencv/opencv_extra/master/testdata/dnn/yolov4.cfg and save it to model directory
